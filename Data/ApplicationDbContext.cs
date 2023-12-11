@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using DistanceEducation.Data.Indentity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace DistanceEducation.Data
 {
@@ -9,5 +12,10 @@ namespace DistanceEducation.Data
             : base(options)
         {
         }
+
+        //public DbSet<User> Student { get; set; }
+        //public DbSet<User> Lecturer { get; set; }
+
+
     }
 }

@@ -14,16 +14,17 @@ html {
   min-height: 100%;
 }
 
-footer {
+footer, header {
     background-color: black;
+    color: white;
 }
-
-header {
-    background-color: black;
+.nav_button {
+    color: white;
 }
 
 body {
     margin-bottom: 60px;
+    background-color: skyblue;
 }
 
 input {
@@ -39,10 +40,14 @@ main {
     border-radius: 10px;
     background-color: honeydew;
     text-align: center;
-    padding: 14px
+    padding: 14px;
 }
 .row {
     display: flex;
     justify-content: center;
     margin-left: auto;
+}
+
+.main-back {
+    margin:auto;
 }
