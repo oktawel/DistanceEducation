@@ -1,23 +1,20 @@
 ﻿//using MessagePack;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 
 namespace DistanceEducation.Models
 {
     public class User
     {
-        [Key] 
-        public int Id { get; set; }
-        [Required]
-        [Display(Name = "Имя")]
+        public string? Id { get; set; }
+        public string? UserName { get; set; }
+        public string? Email { get; set; }
         public string? Name { get; set; }
-        [Required]
-        [Display(Name = "Фамилия")]
         public string? Surname { get; set; }
-        [Required]
-        [Display(Name = "UserId")]
-        public string? UserId { get; set; }
+        public string RoleId { get; set; } = null!;
+        public virtual Role? Role { get; set; }
 
     }
 }

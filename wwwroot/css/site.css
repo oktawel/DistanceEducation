@@ -51,3 +51,20 @@ main {
 .main-back {
     margin:auto;
 }
+
+.fild-details {
+    text-align:left ;
+}
+.fild-details_name {
+    text-align: right;
+    
+}
+.hiden-text {
+    visibility: hidden;
+}
+
+
+.fildfill {
+    display: none;
+    width:100%;
+}

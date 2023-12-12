@@ -31,10 +31,9 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
+
                         <partial name="_LoginPartial" />
-                    }
+
                 </div>
             </div>
         </nav>

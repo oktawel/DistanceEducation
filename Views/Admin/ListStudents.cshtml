@@ -1,0 +1,41 @@
+﻿@model IEnumerable<DistanceEducation.Models.User>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                Имя студента
+            </th>
+            <th>
+                Фамилия студента
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Surname
+                </td>
+                <td>
+                    <button>@Html.ActionLink("Подробная информация", "StudentDetails", new { ID = item.Id })</button>
+                    <button>@Html.ActionLink("Удалить", "DeleteStudent", new { id = item.Id })</button>
+                </td>
+            </tr>
+            i += 1;
+        }
+    </tbody>
+</table>

@@ -1,4 +1,4 @@
-﻿using DistanceEducation.Data.Indentity;
+﻿using DistanceEducation.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ namespace DistanceEducation.Data
         {
         }
 
-        //public DbSet<User> Student { get; set; }
+        public DbSet<User> Students { get; set; }
         //public DbSet<User> Lecturer { get; set; }
 
 

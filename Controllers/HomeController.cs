@@ -1,4 +1,5 @@
-﻿using DistanceEducation.Data;
+﻿//using AspNetCore;
+using DistanceEducation.Data;
 using DistanceEducation.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -32,11 +33,11 @@ namespace DistanceEducation.Controllers
 
         public IActionResult Index()
         {
-            var user = _context.Users.SingleOrDefault(e => e.Id == HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            UserInfo model = new UserInfo();
-            //model.Name = user.Name;
-            //model.Surname = user.Surname;   
-            return View(model);
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            return View();
         }
         [Authorize(Roles = "Admin")]
         public IActionResult Privacy()

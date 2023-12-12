@@ -1,5 +1,4 @@
 using DistanceEducation.Data;
-using DistanceEducation.Data.Indentity;
 using DistanceEducation.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

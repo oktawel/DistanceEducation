@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DistanceEducation.Models.User>
+
+@{
+    ViewData["Title"] = "Список студентов";
+}
+
+<div class="text-center">
+    <a asp-area="Identity" asp-page="/Account/Register">Зарегистрировать студента</a>
+    <input style="width:10%" type="text" id="SearchName" name="SearchName" placeholder="Имя студента" />
+    <input style="width:10%" type="text" id="SearchSurname" name="SearchSurname" placeholder="Фамилия студента" />
+    <div id="StudentsList">@Html.Partial("ListStudents", Model)</div>
+</div>
+
+@section Scripts {
+    <script>
+        let textField = document.getElementById("SearchName");
+        textField.addEventListener("input", function () {
+            console.log(textField.value);
+            $(document).ready(function () {
+                $("#SearchName").change(function () {
+                    var searchName = textField.value;
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("GetStudentsByName", "Admin")',
+                        data: { name: searchName },
+                        success: function (result) {
+                            $("#StudentsList").html(result);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        let textField2 = document.getElementById("SearchSurname");
+        textField2.addEventListener("input", function () {
+            console.log(textField2.value);
+            $(document).ready(function () {
+                $("#SearchSurname").change(function () {
+                    var searchSurname = textField2.value;
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("GetStudentsBySurname", "Admin")',
+                        data: { surname: searchSurname },
+                        success: function (result) {
+                            $("#StudentsList").html(result);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+
