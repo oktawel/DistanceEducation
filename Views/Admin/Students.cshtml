@@ -5,7 +5,7 @@
 }
 
 <div class="text-center">
-    <a asp-area="Identity" asp-page="/Account/Register">Зарегистрировать студента</a>
+    <a asp-controller="Admin" asp-action="RegisterStudent">Зарегистрировать студента</a>
     <input style="width:10%" type="text" id="SearchName" name="SearchName" placeholder="Имя студента" />
     <input style="width:10%" type="text" id="SearchSurname" name="SearchSurname" placeholder="Фамилия студента" />
     <div id="StudentsList">@Html.Partial("ListStudents", Model)</div>

@@ -1,6 +1,7 @@
 ﻿//using AspNetCore;
 using DistanceEducation.Data;
 using DistanceEducation.Models;
+using DistanceEducation.Models.Acount;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +18,14 @@ namespace DistanceEducation.Controllers
     public class AdminController : Controller
     {
         private static ApplicationDbContext _context;
-        public AdminController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ApplicationDbContext context)
         {
+            _roleManager = roleManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
             _context = context;
         }
 
@@ -27,6 +34,51 @@ namespace DistanceEducation.Controllers
         {
             return View();
         }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult RegisterStudent()
+        {
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterStudent(RegisterStudent model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+
+                    await _userManager.AddToRoleAsync(user, "Student");
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    var userRole = await _userManager.GetRolesAsync(user);
+                    var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "Student");
+
+                    User newStudnent = new User();
+                    newStudnent.Id = userId;
+                    newStudnent.UserName = model.UserName;
+                    newStudnent.Email = model.Email;
+                    newStudnent.Name = model.Name;
+                    newStudnent.Surname = model.Surname;
+                    newStudnent.RoleId = role.Id;
+
+                    _context.Add(newStudnent);
+                    _context.SaveChanges();
+
+                    return RedirectToAction("Students", "Admin");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(model);
+        }
+
 
         [HttpGet]
         public IActionResult Students()
@@ -43,29 +95,11 @@ namespace DistanceEducation.Controllers
             return View(student);
         }
 
-        [HttpPost]
+        /**[HttpPost]
         public async Task<IActionResult> Edit(int ID, User record)
         {
-            try
-            {
-                va
-                var seance = _context.Seance.Find(ID);
-                seance.Date = record.Date;
-                seance.HallId = record.HallId;
-                seance.Name_Movie = record.Name_Movie;
-                seance.Price = record.Price;
-                seance.Time = record.Time;
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                ViewData["Halls"] = new SelectList(_context.Set<Hall>(), "HallId", "HallId", record.HallId);
-                return View(record);
-            }
 
-
-
+        }**/
 
 
 
