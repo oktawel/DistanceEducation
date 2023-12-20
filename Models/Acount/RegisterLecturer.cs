@@ -2,7 +2,7 @@
 
 namespace DistanceEducation.Models.Acount
 {
-    public class RegisterStudent
+    public class RegisterLecturer
     {
         [Required]
         [EmailAddress]
@@ -29,7 +29,5 @@ namespace DistanceEducation.Models.Acount
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
-        [Required]
-        public int GroupId { get; set; }
     }
 }

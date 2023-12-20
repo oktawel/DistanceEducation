@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DistanceEducation.Models.Student>
+﻿@model IEnumerable<DistanceEducation.Models.Lecturer>
 
 <table class="table">
     <thead>
@@ -7,16 +7,13 @@
                 №
             </th>
             <th>
-                Имя студента
+                Имя лектора
             </th>
             <th>
-                Фамилия студента
-            </th>
-            <th>
-                Группа
+                Фамилия лектора
             </th>
             <th colspan="2">
-                
+
             </th>
         </tr>
     </thead>
@@ -37,11 +34,8 @@
                     @item.Surname
                 </td>
                 <td>
-                    @item.Group.Name
-                </td>
-                <td>
-                    <button>@Html.ActionLink("Подробная информация", "StudentDetails", new { ID = item.Id })</button>
-                    <button>@Html.ActionLink("Удалить", "DeleteStudent", new { id = item.Id })</button>
+                    <button>@Html.ActionLink("Подробная информация", "LecturerDetails", new { ID = item.Id })</button>
+                    <button>@Html.ActionLink("Удалить", "DeleteLecturer", new { id = item.Id })</button>
                 </td>
             </tr>
             i += 1;

@@ -143,13 +143,13 @@ namespace DistanceEducation.Areas.Identity.Pages.Account
                     var userRole = await _userManager.GetRolesAsync(user);
                     var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "Student");
 
-                    User newStudnent = new User();
+                    Student newStudnent = new Student();
                     newStudnent.Id = userId;
                     newStudnent.UserName = Input.UserName;
                     newStudnent.Email = Input.Email;
                     newStudnent.Name = Input.Name;
                     newStudnent.Surname = Input.Surname;
-                    newStudnent.RoleId = role.Id;
+                    //newStudnent.RoleId = role.Id;
 
                     _context.Add(newStudnent);
                     _context.SaveChanges();

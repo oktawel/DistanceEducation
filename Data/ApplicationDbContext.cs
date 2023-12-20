@@ -12,9 +12,13 @@ namespace DistanceEducation.Data
             : base(options)
         {
         }
-
-        public DbSet<User> Students { get; set; }
-        //public DbSet<User> Lecturer { get; set; }
+        
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Lecturer> Lecturers { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<GroupCourse> GroupCourse { get; set; }
+        public DbSet<LecturerCourse> LecturerCourse { get; set; }
 
 
     }

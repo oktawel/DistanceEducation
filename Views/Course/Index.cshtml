@@ -1,0 +1,25 @@
+﻿@model IEnumerable<DistanceEducation.Models.GroupCourse>
+
+@{
+    ViewData["Title"] = "Доступные курсы";
+}
+
+<div class="text-center">
+    @foreach (var item in Model)
+    {
+        <dl>
+            <dt>
+                @Html.ActionLink(item.Course.Name, "Course", new { ID = item.CourseId })
+            </dt>
+            <dd>
+                @foreach (var lecturer in ViewBag.Lecturers)
+                {
+                    if (@lecturer.CourseId == item.CourseId)
+                    {
+                        @lecturer.Lecturer.Surname @lecturer.Lecturer.Name
+                    }
+                }
+            </dd>
+        </dl>
+    }
+</div>

@@ -44,20 +44,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/DetailsStudent.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGV0YWlsc1N0dWRlbnQuY3NodG1s
+[C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/EditLecturer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdExlY3R1cmVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/EditStudent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFN0dWRlbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/LecturerDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGVjdHVyZXJEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/Lecturers.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGVjdHVyZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/ListLecturers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdExlY3R1cmVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/ListStudents.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdFN0dWRlbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/RegisterLecturer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUmVnaXN0ZXJMZWN0dXJlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/RegisterStudent.cshtml]
@@ -70,6 +86,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Admin/Students.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3R1ZGVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Course/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Course/ListCourses.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXExpc3RDb3Vyc2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/VANA/source/repos/DistanceEducation/DistanceEducation/Views/Home/Index.cshtml]

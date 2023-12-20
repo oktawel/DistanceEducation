@@ -6,7 +6,7 @@ using System.Data;
 
 namespace DistanceEducation.Models
 {
-    public class User
+    public class Lecturer
     {
         public string? Id { get; set; }
         public string? UserName { get; set; }

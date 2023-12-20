@@ -36,6 +36,10 @@ namespace DistanceEducation.Controllers
             {
                 return RedirectToAction("Index", "Admin");
             }
+            if (User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Course");
+            }
             return View();
         }
         [Authorize(Roles = "Admin")]

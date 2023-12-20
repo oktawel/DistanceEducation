@@ -1,14 +1,14 @@
-﻿@model DistanceEducation.Models.Acount.RegisterStudent
+﻿@model DistanceEducation.Models.Acount.RegisterLecturer
 
 @{
-    ViewData["Title"] = "Регистрация студента";
+    ViewData["Title"] = "Регистрация лектора";
 }
 
 <h1>@ViewData["Title"]</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="Admin" asp-action="RegisterStudent">
+        <form asp-controller="Admin" asp-action="RegisterLecturer">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
                 <input asp-for="UserName" class="form-control" autocomplete="username" aria-required="true" />
@@ -20,6 +20,8 @@
                 <label asp-for="Password"></label>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
+
             <div class="form-floating">
                 <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" />
                 <label asp-for="Email"></label>
@@ -35,24 +37,14 @@
                 <label asp-for="Surname"></label>
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
-            <div class="form-floating">
-                <label asp-for="GroupId"></label>
-                <select class="" id="group" name="groupId">
-                    <option value="null">Не назначена</option>
-                    @foreach (var item in ViewBag.Groups)
-                    {
-                        <option value="@item.Id">@item.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="GroupId" class="text-danger"></span><br />
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Добавить студента</button>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Добавить лектора</button>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-controller="Admin" asp-action="Students">Назад к списку</a>
+    <a asp-controller="Admin" asp-action="Lecturers">Назад к списку</a>
 </div>
 
 @section Scripts {
