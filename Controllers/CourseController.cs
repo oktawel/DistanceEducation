@@ -42,6 +42,22 @@ namespace DistanceEducation.Controllers
             return View(courses);
         }
 
+        [HttpGet]
+        public IActionResult Course(int ID)
+        {
+            
+            var course = _context.Courses.FirstOrDefault(c => c.Id ==ID);
+            var tests = _context.Tests.Where(t => t.CourseId == ID).ToList();
+            ViewBag.Tests = tests;
+            return View(course);
+        }
+
+
+             //<!--div class="row">
+               // @Html.ActionLink(@item.Name, "Test", new { ID = @item.Id})
+//            </div-->
+
+
 
     }
 }

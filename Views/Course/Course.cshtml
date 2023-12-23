@@ -1,0 +1,27 @@
+﻿@model DistanceEducation.Models.Course
+
+@{
+    ViewData["Title"] = "Course";
+}
+
+<h1>@Html.DisplayFor(model => model.Name)</h1>
+
+<div>
+    @Html.DisplayFor(model => model.Text)
+</div>
+<div>
+    <div>
+        <h5>Список доступных тестов</h5>
+    </div>
+    <div class="container">
+        @foreach (var item in ViewBag.Tests)
+        {
+            <div class="row">
+                <a asp-controller="Test" asp-action="TestInfo" asp-route-id="@item.Id">@item.Name</a>
+            </div>
+        }
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Назад</a>
+</div>

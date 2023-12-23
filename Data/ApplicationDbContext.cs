@@ -19,7 +19,9 @@ namespace DistanceEducation.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<GroupCourse> GroupCourse { get; set; }
         public DbSet<LecturerCourse> LecturerCourse { get; set; }
-
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<QuestionType> QuestionTypes { get; set; }
 
     }
 }
