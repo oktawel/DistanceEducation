@@ -22,6 +22,10 @@ namespace DistanceEducation.Data
         public DbSet<Test> Tests { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionType> QuestionTypes { get; set; }
-
+        public DbSet<Option> Options { get; set; }
+        public DbSet<OptionTrueFalse> OptionTrueFalse { get; set; }
+        public DbSet<OptionTFQuestion> OptionTFQuestion { get; set; }
+        
+        
     }
 }

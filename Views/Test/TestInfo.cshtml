@@ -32,6 +32,9 @@
             <h2><b>Оценка:</b></h2>
         </div>
     </div>
+    <div class="text-center">
+        <button class="btn btn-primary btn-lg"><a asp-controller="Test" asp-action="Test" asp-route-ID="@Model.Id">Пройти тест</a></button>
+    </div>
 </div>
 <div>
     <a asp-action="Course" asp-controller="Course" asp-route-ID="@ViewBag.Course.Id">Назад к курсу</a>

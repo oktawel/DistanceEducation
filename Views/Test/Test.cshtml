@@ -1,0 +1,88 @@
+﻿@model DistanceEducation.Models.Answer
+
+@{
+    ViewData["Title"] = "TestInfo";
+}
+
+
+
+<div class="row align-items-center">
+    <div class="text-start col-5">
+        Осталось времени:<span id="displayHours"></span>:<span id="displayMinutes"></span>:<span id="displaySeconds"></span><br />
+    </div>
+    <div class="col-7 text-start">
+        <h1>@ViewBag.Test.Name</h1>
+    </div>
+</div>
+
+<div>
+    <div>
+        <form method="post" asp-action="SaveAnswers" asp-route-testId="@ViewBag.Test.Id">
+            @{
+                int i = 0;
+            }
+            @foreach (var item in ViewBag.Questions)
+            {
+                i += 1;
+                <hr />
+                <div class="row align-items-center">
+
+                    <div class="col-3  text-center">
+                        <h2>Вопрос @i</h2>
+                    </div>
+                    <div class="col-9 text-start">
+                        <div>
+                            @item.Name
+                        </div>
+                        <div>
+                            @if (item.QuestionTypeId == 1)
+                            {
+                                <input style="width:40%" type="text" name="free-question-@item.Id" />
+                            }
+                            @if (item.QuestionTypeId == 2)
+                            {
+                                @foreach (var option in ViewBag.Options)
+                                {
+                                    if (option.QuestionId == item.Id)
+                                    {
+                                        <input type="radio" name="single-answer-@item.Id" value="@option.Id" /> @option.Text
+
+                                        <br />
+                                    }
+                                }
+                            }
+                            @if (item.QuestionTypeId == 3)
+                            {
+                                @foreach (var option in ViewBag.Options)
+                                {
+                                    if (option.QuestionId == item.Id)
+                                    {
+                                        <input type="checkbox" name="multiple-answer-@item.Id" value="@option.Id" /> @option.Text
+
+                                        <br />
+                                    }
+                                }
+                            }
+                            @if (item.QuestionTypeId == 4)
+                            {
+                                @foreach (var option in ViewBag.OptionsTF)
+                                {
+                                    if (option.QuestionId == item.Id)
+                                    {
+                                        <input type="radio" name="true-false-answer-@item.Id" value="@option.OptionTrueFalseId" /> @option.OptionTrueFalse.Text
+
+                                        <br />
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+            <button type="submit">Закончить</button>
+        </form>
+    </div>
+</div>
+
