@@ -1,4 +1,5 @@
 ﻿//using MessagePack;
+using Microsoft.Extensions.Hosting;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
@@ -13,8 +14,8 @@ namespace DistanceEducation.Models
         public string? Email { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
-        public string RoleId { get; set; } = null!;
-        public virtual Role? Role { get; set; }
+
+        public List<LecturerCourse> LecturerCourse { get; } = new();
 
     }
 }

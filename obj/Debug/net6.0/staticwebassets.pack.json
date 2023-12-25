@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\VANA\\source\\repos\\DistanceEducation\\DistanceEducation\\wwwroot\\img\\Edit.png",
+      "PackagePath": "staticwebassets\\img\\Edit.png"
+    },
+    {
       "Id": "C:\\Users\\VANA\\source\\repos\\DistanceEducation\\DistanceEducation\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

@@ -1,25 +1,37 @@
-﻿@model IEnumerable<DistanceEducation.Models.GroupCourse>
+﻿@model IEnumerable<DistanceEducation.Models.Course>
 
 @{
     ViewData["Title"] = "Доступные курсы";
 }
 
 <div class="text-center">
+    <div class="row align-items-center text-center">
+        @if (User.IsInRole("Lecturer"))
+        {
+            <div class="text-end">
+                <a>Добавить новый курс</a>
+            </div>
+        }
+        <div class="text-center">
+            <h2>Список курсов</h2>
+        </div>
+    </div>
     @foreach (var item in Model)
     {
-        <dl>
-            <dt>
-                @Html.ActionLink(item.Course.Name, "Course", new { ID = item.CourseId })
-            </dt>
-            <dd>
+        <hr />
+        <div>
+            <div class="row align-items-center text-start">
+                <h3><a class="text-decoration-none" asp-action="Course" asp-route-ID="@item.Id">@item.Name</a></h3>
+            </div>
+            <div class="row align-items-start text-start">
                 @foreach (var lecturer in ViewBag.Lecturers)
                 {
-                    if (@lecturer.CourseId == item.CourseId)
+                    if (@lecturer.CourseId == item.Id)
                     {
-                        @lecturer.Lecturer.Surname @lecturer.Lecturer.Name
+                        <h6>@lecturer.Lecturer.Surname @lecturer.Lecturer.Name</h6>
                     }
                 }
-            </dd>
-        </dl>
+            </div>
+        </div>
     }
 </div>

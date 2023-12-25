@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "TestInfo";
+
+    int result = ViewBag.Result;
+    var resultMark = ViewBag.ResultMark;
+    bool isEditor = ViewBag.isEditor;
 }
 
 
@@ -29,11 +33,50 @@
             </div>
         </div>
         <div class="col-7 text-center ">
-            <h2><b>Оценка:</b></h2>
+            @if (isEditor)
+            {
+                <h3>Не оценёных работ: @ViewBag.Count</h3>
+                <button class="btn btn-success"><a class="text-decoration-none text-light" asp-action="RateTheWorks" asp-route-Id="@Model.Id">Оценить</a></button>
+            }
+            else if (result == 0)
+            {
+                <h2><b>Оценка: @resultMark</b></h2> 
+            }
+            else if (result == 1)
+            {
+                <h2><b>На оценивании</b></h2>
+            }
+            else if (result == 2)
+            {
+                <h2><b>Не пройден</b></h2>
+            }
+            else
+            {
+                <h2><b>ERROR</b></h2>
+            }
         </div>
     </div>
-    <div class="text-center">
-        <button class="btn btn-primary btn-lg"><a asp-controller="Test" asp-action="Test" asp-route-ID="@Model.Id">Пройти тест</a></button>
+    <div class= "row gy-1 text-center">
+        @if (result == 2 && !(isEditor))
+        {
+            <button class="btn btn-primary btn-lg"><a class="text-light text-decoration-none" asp-controller="Test" asp-action="Test" asp-route-ID="@Model.Id">Пройти тест</a></button>
+        }
+        else if (isEditor)
+        {
+            <br/>
+            <div>
+                <select id="SearchGroup" name="SearchGroup">
+                    <option value="0">Все группы</option>
+                    @foreach (var item in ViewBag.Results)
+                    {
+                        <option value="@item.Student.Group.Id">@item.Student.Group.Name</option>
+                    }
+                </select>
+            </div>
+            <div id="ListResults" >
+                @Html.Partial("ListResults")
+            </div>
+        }
     </div>
 </div>
 <div>

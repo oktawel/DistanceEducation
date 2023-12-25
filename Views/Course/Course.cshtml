@@ -2,26 +2,65 @@
 
 @{
     ViewData["Title"] = "Course";
+    bool isEditor = ViewBag.isEditor;
 }
 
-<h1>@Html.DisplayFor(model => model.Name)</h1>
 
 <div>
-    @Html.DisplayFor(model => model.Text)
-</div>
-<div>
+    @if (isEditor)
+    {
+        <div class="align-items-start text-end">
+            Редактировать курс
+        </div>
+    }
+
     <div>
-        <h5>Список доступных тестов</h5>
+        <h1>@Html.DisplayFor(model => model.Name)</h1>
     </div>
-    <div class="container">
-        @foreach (var item in ViewBag.Tests)
-        {
-            <div class="row">
-                <a asp-controller="Test" asp-action="TestInfo" asp-route-id="@item.Id">@item.Name</a>
-            </div>
-        }
+
+    <div>
+        @Html.DisplayFor(model => model.Text)
     </div>
 </div>
+
+<hr/>
+
+<div>
+    @if (ViewBag.Tests != null)
+    {
+        <div>
+            <h3>Доступные тесты</h3>
+        </div>
+        <div class="container">
+            @foreach (var item in ViewBag.Tests)
+            {
+                <div class="row text-start justify-content-start">
+                    <div class="col-7 text-start">
+                        <h4>
+                            <a class="text-decoration-none align-middle" asp-controller="Test" asp-action="TestInfo" asp-route-id="@item.Id">@item.Name</a>
+                        @if (isEditor)
+                        {
+                            <a><img style="width:3%;" src="@Url.Content("~/img/Edit.png")" /></a>
+                        }
+                        </h4>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div>
+            <h5>Доступных тестов сейчас нет</h5>
+        </div>
+    }
+</div>
+@if (isEditor)
+{
+    <div class="text-center align-items-center">
+        <button class="btn btn-primary"><a class="text-decoration-none text-light">Добавить тест</a></button>
+    </div>
+}
 <div>
     <a asp-action="Index">Назад</a>
 </div>

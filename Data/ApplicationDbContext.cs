@@ -13,6 +13,7 @@ namespace DistanceEducation.Data
         {
         }
         
+
         public DbSet<Student> Students { get; set; }
         public DbSet<Lecturer> Lecturers { get; set; }
         public DbSet<Group> Groups { get; set; }
@@ -25,7 +26,9 @@ namespace DistanceEducation.Data
         public DbSet<Option> Options { get; set; }
         public DbSet<OptionTrueFalse> OptionTrueFalse { get; set; }
         public DbSet<OptionTFQuestion> OptionTFQuestion { get; set; }
-        
-        
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<TestResult> TestResult { get; set; }
+
+
     }
 }

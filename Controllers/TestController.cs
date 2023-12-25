@@ -30,11 +30,55 @@ namespace DistanceEducation.Controllers
         [HttpGet]
         public IActionResult TestInfo(int ID)
         {
+            bool editor = false;
             var test = _context.Tests.FirstOrDefault(t => t.Id == ID);
 
             var course = _context.Courses.FirstOrDefault(c => c.Id == test.CourseId);
             ViewBag.Course = course;
 
+            if (User.IsInRole("Student")) 
+            {
+                var user = _context.Students.FirstOrDefault(n => n.UserName == User.Identity.Name);
+                TestResult resultTest;
+                try
+                {
+                    resultTest = _context.TestResult.FirstOrDefault(r => r.StudentId.Equals(user.Id));
+                    if (resultTest.Mark != null)
+                    {
+                        ViewBag.Result = 0;
+                        ViewBag.ResultMark = resultTest.Mark;
+                    }
+                    else
+                    {
+                        ViewBag.Result = 1;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Result = 2;
+                }
+            }
+            else if (User.IsInRole("Lecturer"))
+            {
+                var user = _context.Lecturers.FirstOrDefault(n => n.UserName == User.Identity.Name);
+                var editors = _context.LecturerCourse.Where(c => c.CourseId == course.Id).ToList();
+                foreach (var i in editors)
+                {
+                    if (i.LecturerId == user.Id)
+                    {
+                        var resultTestCount = _context.TestResult.Where(r => r.Mark == null);
+                        ViewBag.Count = resultTestCount.Count();
+                        var resultTest = _context.TestResult.Where(r => r.Mark != null).Include(s => s.Student).Include(g => g.Student.Group);
+                        ViewBag.Results = resultTest;
+                        editor = true;
+                        break;
+                    }
+                }
+                ViewBag.Result = 2;
+            }
+
+            ViewBag.isEditor = editor;
             return View(test);
         }
         [HttpGet] 
@@ -56,7 +100,20 @@ namespace DistanceEducation.Controllers
         public IActionResult SaveAnswers(IFormCollection form, int testId)
         {
             Console.WriteLine("Test-" + testId);
+
+            var UserName = User.Identity.Name;
+            var user = _context.Students.FirstOrDefault(n => n.UserName == UserName);
+
             var questions = _context.Questions.Where(q => q.TestId == testId).ToList();
+            TestResult testResult = new TestResult();
+            testResult.StudentId = user.Id;
+            testResult.TestId = testId;
+
+            _context.TestResult.Add(testResult);
+            _context.SaveChanges();
+
+            var testResultId = testResult.Id;
+
             foreach (var question in questions)
             {
                 Answer answer = new Answer();
@@ -67,6 +124,7 @@ namespace DistanceEducation.Controllers
                     if (question.QuestionTypeId == 1 && key.Contains("free-question-"))
                     {
                         Console.WriteLine(1 + key + ":" + form[key]);
+
                         answer.TextAnswer = form[key];
                         var option = _context.Options.FirstOrDefault(q => q.QuestionId == question.Id);
                         if (option.Text.Contains(form[key]))
@@ -77,6 +135,9 @@ namespace DistanceEducation.Controllers
                         {
                             answer.Correct = false;
                         }
+                        answer.TestResultId = testResultId;
+                        _context.Answers.Add(answer);
+                        _context.SaveChanges();
                     }
                     else if (question.QuestionTypeId == 2 && key.Contains("single-answer-"))
                     {
@@ -84,7 +145,10 @@ namespace DistanceEducation.Controllers
                         int.TryParse(form[key], out int intValue);
                         answer.OptionId = intValue;
                         var option = _context.Options.FirstOrDefault(q => q.Id == intValue);
-                        answer.Correct = option.Correct;
+                        answer.Correct = (bool)option.Correct;
+                        answer.TestResultId = testResultId;
+                        _context.Answers.Add(answer);
+                        _context.SaveChanges();
                     }
                     else if (question.QuestionTypeId == 3 && key.Contains("multiple-answer-"))
                     {
@@ -94,14 +158,19 @@ namespace DistanceEducation.Controllers
                         { 
                             Answer answerList = new Answer();
                             answerList = answer;
+                            answerList.Id = null;
+
                             int.TryParse(ans, out int intValue);
                             answerList.OptionId = intValue;
                             var option = _context.Options.FirstOrDefault(q => q.Id == intValue);
-                            answerList.Correct = option.Correct;
+                            answerList.Correct = (bool)option.Correct;
                             Console.WriteLine("Znach" + intValue);
                             Console.WriteLine("QuestionId" + answerList.QuestionId);
                             Console.WriteLine("OptionId" + answerList.OptionId);
                             Console.WriteLine("Correct" + answerList.Correct);
+                            answerList.TestResultId = testResultId;
+                            _context.Answers.Add(answerList);
+                            _context.SaveChanges();
                         }
                         
                     }
@@ -109,21 +178,85 @@ namespace DistanceEducation.Controllers
                     {
                         Console.WriteLine(4 + key + ":" + form[key]);
                         int.TryParse(form[key], out int intValue);
-                        answer.OptionTFId = intValue;
+                        answer.OptionTrueFalseId = intValue;
                         var option = _context.OptionTrueFalse.FirstOrDefault(q => q.Id == intValue);
-                        answer.Correct = option.Correct;
+                        answer.Correct = (bool)option.Correct;
+                        answer.TestResultId = testResultId;
+                        _context.Answers.Add(answer);
+                        _context.SaveChanges();
                     }
-                }
-                if (question.QuestionTypeId != 3) 
-                {
-                    Console.WriteLine("QuestionId " + answer.QuestionId);
-                    Console.WriteLine("OptionId " + answer.OptionId); 
-                    Console.WriteLine("OptionTFId" + answer.OptionTFId);
-                    Console.WriteLine("TextAnswer" + answer.TextAnswer);
-                    Console.WriteLine("Correct" + answer.Correct);
-                }               
+                }            
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult RateTheWorks(int Id)
+        {
+            var notRate = _context.TestResult.Where(r => r.Mark == null).Where(t => t.TestId == Id).ToList();
+            foreach (var item in notRate) 
+            {
+                float cost = 0;
+                int countOptions = 0;
+                float costOne = 0;
+                int multipleId = 0;
+
+                float studentMark = 0;
+
+                var answers = _context.Answers.Where(a => a.TestResultId == item.Id).Include(q => q.Question).ToList();
+                foreach (var answer in answers) 
+                {
+                    switch (answer.Question.QuestionTypeId)
+                    {
+                        case 1: 
+                            {
+                                if (answer.Correct)
+                                {
+                                    studentMark += answer.Question.Cost;
+                                }
+                                break; 
+                            }
+                        case 2: 
+                            {
+                                if (answer.Correct)
+                                {
+                                    studentMark += answer.Question.Cost;
+                                }
+                                break;
+                            }
+                        case 3: 
+                            {
+                                if (multipleId != answer.QuestionId)
+                                {
+                                    multipleId = answer.QuestionId;
+                                    cost = answer.Question.Cost;
+                                    countOptions = _context.Options.Where(t => t.QuestionId == answer.QuestionId).Where(c => c.Correct == true).Count();
+                                    costOne = cost / countOptions;
+                                }
+
+                                if (answer.Correct)
+                                {
+                                    studentMark += costOne;
+                                }
+                                break; 
+                            }
+                        case 4: 
+                            {
+                                if (answer.Correct)
+                                {
+                                    studentMark += answer.Question.Cost;
+                                }
+                                break; 
+                            }
+
+                    }
+                }
+                
+                item.Mark = studentMark;
+                _context.Update(item);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("TestInfo", new { ID = Id });
         }
     }
 }

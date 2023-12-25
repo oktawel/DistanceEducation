@@ -1,0 +1,37 @@
+﻿<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Имя студента
+            </th>
+            <th>
+                Фамилия студента
+            </th>
+            <th>
+                Группа
+            </th>
+            <th>
+                Оценка
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Results)
+        {
+            <tr>
+                <td>
+                    @item.Student.Name
+                </td>
+                <td>
+                    @item.Student.Surname
+                </td>
+                <td>
+                    @item.Student.Group.Name
+                </td>
+                <td>
+                    @item.Mark
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

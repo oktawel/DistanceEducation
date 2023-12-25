@@ -5,15 +5,18 @@ using System.Data;
 
 namespace DistanceEducation.Models
 {
-    public class Question
+    public class TestResult
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public int QuestionTypeId { get; set; }
         public int TestId { get; set; }
-        public int Cost { get; set; }
+        public string? StudentId { get; set; }
 
-        public virtual QuestionType? QuestionType { get; set; }
+        public double? Mark { get; set; }
+
+
         public virtual Test? Test { get; set; }
+        public virtual Student? Student { get; set; }
+
+
     }
 }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MvU/BJahj9ODPpnDludq3IAV3OzSJqwuuElZ8k2vdnU=",
+  "Hash": "rAlU9UakRnj6mt5RW/BjoVXKnMDZBLsBTTPvW/MqLRM=",
   "Source": "DistanceEducation",
   "BasePath": "_content/DistanceEducation",
   "Mode": "Default",
@@ -1103,6 +1103,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\VANA\\source\\repos\\DistanceEducation\\DistanceEducation\\wwwroot\\img\\Edit.png",
+      "SourceId": "DistanceEducation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\VANA\\source\\repos\\DistanceEducation\\DistanceEducation\\wwwroot\\",
+      "BasePath": "_content/DistanceEducation",
+      "RelativePath": "img/Edit.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\Edit.png"
     },
     {
       "Identity": "C:\\Users\\VANA\\source\\repos\\DistanceEducation\\DistanceEducation\\wwwroot\\js\\site.js",

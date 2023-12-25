@@ -31,32 +31,65 @@ namespace DistanceEducation.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var UserName = User.Identity.Name;
-            var user = _context.Students.FirstOrDefault(n => n.UserName == UserName);
-            List<GroupCourse> courses = _context.GroupCourse.Where(g => g.GroupId == user.GroupId).Include(c => c.Course).ToList();
-           
-            var lecturers = _context.LecturerCourse.Include(l => l.Lecturer).ToList();
-            ViewBag.Lecturers = lecturers;
+            if (User.IsInRole("Student"))
+            {
+                var UserName = User.Identity.Name;
+                var user = _context.Students.FirstOrDefault(n => n.UserName == UserName);
+                //List<Course> courses = _context.Courses.Include(g => g.GroupCourse);
 
+                List<GroupCourse> groupcourses = _context.GroupCourse.Where(g => g.GroupId == user.GroupId).Include(c => c.Course).ToList();
+                List<Course> courses = new List<Course>();
+                foreach (GroupCourse i in groupcourses)
+                {
+                    courses.Add(i.Course);
+                }
+          
+                var lecturers = _context.LecturerCourse.Include(l => l.Lecturer).ToList();
+                ViewBag.Lecturers = lecturers;
+                return View(courses);
+            }
+            else if (User.IsInRole("Lecturer"))
+            {
+                var UserName = User.Identity.Name;
+                var user = _context.Lecturers.FirstOrDefault(n => n.UserName == UserName);
+                List<Course> courses = _context.Courses.ToList();
 
-            return View(courses);
+                var lecturers = _context.LecturerCourse.Include(l => l.Lecturer).ToList();
+                ViewBag.Lecturers = lecturers;
+                return View(courses);
+            }
+
+            return View();
+
         }
 
         [HttpGet]
         public IActionResult Course(int ID)
         {
-            
-            var course = _context.Courses.FirstOrDefault(c => c.Id ==ID);
+            bool editor = false;
+
+            var course = _context.Courses.FirstOrDefault(c => c.Id == ID);
             var tests = _context.Tests.Where(t => t.CourseId == ID).ToList();
             ViewBag.Tests = tests;
+
+            if (User.IsInRole("Lecturer"))
+            {
+                var user = _context.Lecturers.FirstOrDefault(n => n.UserName == User.Identity.Name);
+                var editors = _context.LecturerCourse.Where(c => c.CourseId == course.Id).ToList();
+                foreach (var i in editors)
+                {
+                    if (i.LecturerId == user.Id)
+                    {
+                        editor = true;
+                        break;
+                    }
+                }
+            }       
+
+            ViewBag.isEditor = editor;
+
             return View(course);
         }
-
-
-             //<!--div class="row">
-               // @Html.ActionLink(@item.Name, "Test", new { ID = @item.Id})
-//            </div-->
-
 
 
     }

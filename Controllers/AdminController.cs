@@ -186,7 +186,6 @@ namespace DistanceEducation.Controllers
                     newLecturer.Email = model.Email;
                     newLecturer.Name = model.Name;
                     newLecturer.Surname = model.Surname;
-                    newLecturer.RoleId = role.Id;
 
                     _context.Add(newLecturer);
                     _context.SaveChanges();

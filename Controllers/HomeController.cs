@@ -36,7 +36,7 @@ namespace DistanceEducation.Controllers
             {
                 return RedirectToAction("Index", "Admin");
             }
-            if (User.IsInRole("Student"))
+            if (User.IsInRole("Student") || User.IsInRole("Lecturer"))
             {
                 return RedirectToAction("Index", "Course");
             }
