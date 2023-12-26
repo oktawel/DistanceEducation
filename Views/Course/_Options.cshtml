@@ -1,0 +1,75 @@
+﻿
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Ответ №
+            </th>
+            <th>
+                Ответ
+            </th>
+            <th>
+                Верный ответ
+            </th>
+            <th colspan="2">
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+        }
+        @if (ViewBag.OptionTF)
+        {
+            foreach (var item in ViewBag.Options)
+            {
+                <tr>
+                    <td>
+                        Ответ @i
+                    </td>
+                    <td>
+                        @item.OptionTrueFalse.Text
+                    </td>
+                    <td>
+                        @if (item.OptionTrueFalse.Correct)
+                        {
+                            <span>+</span>
+                        }
+                    </td>
+                    <td>
+                        <span></span>
+                        <span></span>
+                    </td>
+                </tr>
+                i += 1;
+            }
+        }
+        else
+        {
+            @foreach (var item in ViewBag.Options)
+            {
+                <tr>
+                    <td>
+                        Вопрос @i
+                    </td>
+                    <td>
+                        @item.Text
+                    </td>
+                    <td>
+                        @if (item.Correct)
+                        {
+                        <span>+</span>
+                        }
+                    </td>
+                    <td>
+                        <button>@Html.ActionLink("Изменить", "EditOption", new { optionId = item.Id })</button>
+                        <button>@Html.ActionLink("Удалить", "DeleteStudent", new { optionId = item.Id })</button>
+                    </td>
+                </tr>
+                i += 1;
+            }
+        }
+
+    </tbody>
+</table>

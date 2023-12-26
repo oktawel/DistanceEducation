@@ -41,6 +41,7 @@ namespace DistanceEducation.Controllers
         {
             var groups =  _context.Groups.ToList();
             ViewBag.Groups = groups;
+            Console.WriteLine(groups);
             return View();
         }
         [HttpPost]

@@ -14,6 +14,7 @@ using Microsoft.Data.SqlClient;
 using System;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json.Linq;
+using DistanceEducation.Models.Acount;
 
 namespace DistanceEducation.Controllers
 {
@@ -33,6 +34,15 @@ namespace DistanceEducation.Controllers
             bool editor = false;
             var test = _context.Tests.FirstOrDefault(t => t.Id == ID);
 
+            var questions = _context.Questions.Where(t => t.TestId == test.Id).ToList();
+            double maxMark = 0;
+            foreach(var question in questions)
+            {
+                maxMark += question.Cost;
+            }
+
+            ViewBag.maxMark = maxMark;
+
             var course = _context.Courses.FirstOrDefault(c => c.Id == test.CourseId);
             ViewBag.Course = course;
 
@@ -42,15 +52,22 @@ namespace DistanceEducation.Controllers
                 TestResult resultTest;
                 try
                 {
-                    resultTest = _context.TestResult.FirstOrDefault(r => r.StudentId.Equals(user.Id));
-                    if (resultTest.Mark != null)
+                    resultTest = _context.TestResult.Where(t => t.TestId == test.Id).FirstOrDefault(r => r.StudentId.Equals(user.Id));
+                    if (resultTest != null)
                     {
-                        ViewBag.Result = 0;
-                        ViewBag.ResultMark = resultTest.Mark;
+                        if (resultTest.Mark != null)
+                        {
+                            ViewBag.Result = 0;
+                            ViewBag.ResultMark = resultTest.Mark;
+                        }
+                        else
+                        {
+                            ViewBag.Result = 1;
+                        }
                     }
                     else
                     {
-                        ViewBag.Result = 1;
+                        ViewBag.Result = 2;
                     }
 
                 }
@@ -67,9 +84,9 @@ namespace DistanceEducation.Controllers
                 {
                     if (i.LecturerId == user.Id)
                     {
-                        var resultTestCount = _context.TestResult.Where(r => r.Mark == null);
+                        var resultTestCount = _context.TestResult.Where(t => t.TestId == ID).Where(r => r.Mark == null);
                         ViewBag.Count = resultTestCount.Count();
-                        var resultTest = _context.TestResult.Where(r => r.Mark != null).Include(s => s.Student).Include(g => g.Student.Group);
+                        var resultTest = _context.TestResult.Where(t => t.TestId == ID).Where(r => r.Mark != null).Include(s => s.Student).Include(g => g.Student.Group);
                         ViewBag.Results = resultTest;
                         editor = true;
                         break;
@@ -250,13 +267,52 @@ namespace DistanceEducation.Controllers
 
                     }
                 }
-                
-                item.Mark = studentMark;
+                double roundedStudentMark = Math.Round(studentMark, 2);
+                item.Mark = roundedStudentMark;
                 _context.Update(item);
                 _context.SaveChanges();
             }
 
             return RedirectToAction("TestInfo", new { ID = Id });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult GetResultsByGroup(int groupid)
+        {
+            var resultTest = _context.TestResult.Where(r => r.Mark != null);
+
+            if (groupid != 0)
+            {
+                resultTest = resultTest.Include(s => s.Student).Include(g => g.Student.Group).Where(g => g.Student.GroupId == groupid);
+                ViewBag.Results = resultTest;
+            }
+            else
+            {
+                resultTest = resultTest.Include(s => s.Student).Include(g => g.Student.Group);
+            }
+            return PartialView("ListStudents", resultTest);
         }
     }
 }

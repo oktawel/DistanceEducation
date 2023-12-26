@@ -7,7 +7,7 @@ namespace DistanceEducation.Models
 {
     public class OptionTFQuestion
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int OptionTrueFalseId { get; set; }
         public int QuestionId { get; set; }
 

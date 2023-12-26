@@ -1,0 +1,21 @@
+﻿@model DistanceEducation.Models.AddTest
+
+@using (Html.BeginForm("Create", "Test", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.Name)
+    @Html.TextBoxFor(m => m.Name)
+
+    @Html.LabelFor(m => m.Description)
+    @Html.TextBoxFor(m => m.Description)
+
+    // Добавьте другие поля для остальных свойств модели AddTest
+
+    <div id="questionsContainer">
+        <!-- Контейнер для вопросов -->
+    </div>
+
+    <button type="button" onclick="addQuestion()">Добавить вопрос</button>
+
+    <input type="submit" value="Создать тест" />
+}
+

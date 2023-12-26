@@ -1,4 +1,6 @@
-﻿<table class="table">
+﻿@model DistanceEducation.Models.Test
+
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -29,7 +31,7 @@
                     @item.Student.Group.Name
                 </td>
                 <td>
-                    @item.Mark
+                    @item.Mark.ToString("F2")<span>/</span>@ViewBag.maxMark
                 </td>
             </tr>
         }

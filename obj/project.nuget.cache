@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2S0VMbCqR0e0ealzKrGeDFhdujDAcMHmcvtrVILT3+fd3JNGVMDDqA3wlEw2ci0acgl34uypPw8qsaugno/2AA==",
+  "dgSpecHash": "Md7ajFe+CyblENh0P1OKPveEa7vUw8uuqmphPJ8yZDPgxSoIE+1Bls28hqouTQqGR6coH5b7oMw5gu1uRLN1BA==",
   "success": true,
   "projectFilePath": "C:\\Users\\VANA\\source\\repos\\DistanceEducation\\DistanceEducation\\DistanceEducation.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\VANA\\.nuget\\packages\\begincollectionitem\\1.2.1\\begincollectionitem.1.2.1.nupkg.sha512",
     "C:\\Users\\VANA\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\VANA\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\VANA\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",
@@ -247,6 +248,16 @@
     "C:\\Users\\VANA\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"BeginCollectionItem 1.2.1\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \"net6.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "BeginCollectionItem",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

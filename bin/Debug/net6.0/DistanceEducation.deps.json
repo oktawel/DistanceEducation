@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "DistanceEducation/1.0.0": {
         "dependencies": {
+          "BeginCollectionItem": "1.2.1",
           "Microsoft.AspNet.SignalR": "2.4.3",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.23",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.23",
@@ -19,6 +20,14 @@
         },
         "runtime": {
           "DistanceEducation.dll": {}
+        }
+      },
+      "BeginCollectionItem/1.2.1": {
+        "runtime": {
+          "lib/net35/BeginCollectionItem.dll": {
+            "assemblyVersion": "1.2.1.0",
+            "fileVersion": "1.2.1.0"
+          }
         }
       },
       "Humanizer/2.14.1": {
@@ -2842,6 +2851,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "BeginCollectionItem/1.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VLUct5Hun7FFOe2PNp4Gn9QdyQvLmY5cdnUmzd/FOu0pNtypUJ0SnPM7XWhlhZ5KBa0ZxW30IJwUy+9POpHm0Q==",
+      "path": "begincollectionitem/1.2.1",
+      "hashPath": "begincollectionitem.1.2.1.nupkg.sha512"
     },
     "Humanizer/2.14.1": {
       "type": "package",

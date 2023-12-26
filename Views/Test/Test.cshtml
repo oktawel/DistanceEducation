@@ -39,6 +39,7 @@
                             {
                                 <input style="width:40%" type="text" name="free-question-@item.Id" />
                             }
+
                             @if (item.QuestionTypeId == 2)
                             {
                                 @foreach (var option in ViewBag.Options)
@@ -51,6 +52,7 @@
                                     }
                                 }
                             }
+
                             @if (item.QuestionTypeId == 3)
                             {
                                 @foreach (var option in ViewBag.Options)
@@ -63,6 +65,7 @@
                                     }
                                 }
                             }
+
                             @if (item.QuestionTypeId == 4)
                             {
                                 @foreach (var option in ViewBag.OptionsTF)

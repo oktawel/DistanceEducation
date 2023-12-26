@@ -40,7 +40,7 @@
                             <a class="text-decoration-none align-middle" asp-controller="Test" asp-action="TestInfo" asp-route-id="@item.Id">@item.Name</a>
                         @if (isEditor)
                         {
-                            <a><img style="width:3%;" src="@Url.Content("~/img/Edit.png")" /></a>
+                                <a asp-action="EditTest" asp-route-courseId="@Model.Id" asp-route-testId="@item.Id"><img style="width:3%;" src="@Url.Content("~/img/Edit.png")" /></a>
                         }
                         </h4>
                     </div>
@@ -58,7 +58,7 @@
 @if (isEditor)
 {
     <div class="text-center align-items-center">
-        <button class="btn btn-primary"><a class="text-decoration-none text-light">Добавить тест</a></button>
+        <button class="btn btn-primary"><a class="text-decoration-none text-light" asp-controller="Course" asp-action="AddTest" asp-route-courseId="@Model.Id">Добавить тест</a></button>
     </div>
 }
 <div>

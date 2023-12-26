@@ -1,0 +1,44 @@
+﻿@model DistanceEducation.Models.AddOptionTrueFalse
+
+@{
+    ViewData["Title"] = "Добавление варианта ответа";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="Course" asp-action="AddTFOption">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row align-items-center text-center">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            @ViewBag.Question.Name 
+                            Выражение верно:
+                            <select asp-for="OptionTrueFalseId">
+                                <option value="0">Выберите вариант ответа</option>
+                                <option value="1">Верно</option>
+                                <option value="3">Неверно</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="form-floating">
+                <input asp-for="QuestionId" class="form-control" type="hidden" value="@ViewBag.Question.Id" />
+            </div>
+            <button id="addSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Добавить</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="EditQuestion" asp-route-questionId="@ViewBag.Question.Id">Назад</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

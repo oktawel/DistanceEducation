@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "TestInfo";
-
+    double maxMark = ViewBag.maxMark;
     int result = ViewBag.Result;
     var resultMark = ViewBag.ResultMark;
     bool isEditor = ViewBag.isEditor;
@@ -40,7 +40,7 @@
             }
             else if (result == 0)
             {
-                <h2><b>Оценка: @resultMark</b></h2> 
+                <h2><b>Оценка: @resultMark/@maxMark</b></h2>
             }
             else if (result == 1)
             {
@@ -59,7 +59,9 @@
     <div class= "row gy-1 text-center">
         @if (result == 2 && !(isEditor))
         {
-            <button class="btn btn-primary btn-lg"><a class="text-light text-decoration-none" asp-controller="Test" asp-action="Test" asp-route-ID="@Model.Id">Пройти тест</a></button>
+            <div>
+                <button class="btn btn-primary btn-lg"><a class="text-light text-decoration-none" asp-controller="Test" asp-action="Test" asp-route-ID="@Model.Id">Пройти тест</a></button>
+            </div>
         }
         else if (isEditor)
         {
@@ -74,7 +76,7 @@
                 </select>
             </div>
             <div id="ListResults" >
-                @Html.Partial("ListResults")
+                @Html.Partial("ListResults", Model)
             </div>
         }
     </div>
@@ -82,3 +84,23 @@
 <div>
     <a asp-action="Course" asp-controller="Course" asp-route-ID="@ViewBag.Course.Id">Назад к курсу</a>
 </div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#SearchGroup").change(function () {
+                var id = $(this).val();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetResultsByGroup", "Test")',
+                    data: { groupid: id },
+                    success: function (result) {
+                        $(@ViewBag.Results = result);
+                        $("#ListResults").html(result);
+                    }
+                });
+            });
+        });
+    </script>
+}

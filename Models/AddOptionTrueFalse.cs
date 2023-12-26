@@ -5,11 +5,11 @@ using System.Data;
 
 namespace DistanceEducation.Models
 {
-    public class Group
+    public class AddOptionTrueFalse
     {
-        public int? Id { get; set; }
-        public string? Name { get; set; }
+        public int Id { get; set; }
+        public int OptionTrueFalseId { get; set; }
+        public int QuestionId { get; set; }
 
-        //public List<GroupCourse>? GroupCourse { get; } = new();
     }
 }

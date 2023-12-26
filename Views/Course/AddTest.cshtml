@@ -1,0 +1,135 @@
+﻿@model DistanceEducation.Models.AddTest
+
+@{
+    ViewData["Title"] = "Добавление теста";
+    int courseId = ViewBag.Course.Id;
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="Course" asp-action="AddTest">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row align-items-center text-center">
+                <div class="col-4">
+                    <div class="form-floating">
+                        <input asp-for="Name" class="form-control" type="text" />
+                        <label asp-for="Name"></label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-floating">
+                        <textarea asp-for="Description" class="form-control" type="text"></textarea>
+                        <label asp-for="Description"></label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center text-left">
+                <div class="col-2 ">
+                    <div class="form-floating">
+                        <input asp-for="Length" class="form-control" type="number" min="1" />
+                        <label asp-for="Length"></label>
+                        <span asp-validation-for="Length" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4 ">
+                    <div class="form-floating">
+                        <div class=" row">
+                            <div class="col-6">
+                                <label asp-for="DateStart"></label>
+                                <input type="date" asp-for="DateStart" class="form-control" />
+                                <span asp-validation-for="DateStart" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="TimeStart"></label>
+                                <input asp-for="TimeStart" class="form-control" type="time" />
+                                <span asp-validation-for="TimeStart" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 ">
+                    <div class="form-floating">
+                        <div class=" row">
+                            <div class="col-6">
+                                <label asp-for="DateEnd"></label>
+                                <input asp-for="DateEnd" class="form-control" type="date" />
+                                <span asp-validation-for="DateEnd" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="TimeEnd"></label>
+                                <input asp-for="TimeEnd" class="form-control" type="time" />
+                                <span asp-validation-for="TimeEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-floating">
+                <input asp-for="CourseId" class="form-control" type="hidden" value="@courseId"/>
+            </div>
+            <button id="addSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Добавить тест</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Course" asp-route-ID="@courseId">Назад</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        var questionIndex = 0;
+
+        function addQuestion() {
+            var questionHtml = `
+                        <div class="question">
+                            <label>Вопрос<label>
+                            <input type="text" style="width:20%" name="Questions[${questionIndex}].Name" />
+                            <label>Тип<label>
+                            <select id="Type" name="Type">
+                                        <option value="1">Свободный вопрос</option>
+                                                <option value="2">Вопрос с одним ответом</option>
+                                                <option value="3">Вопрос с несколькими ответами</option>
+                                                <option value="4">Вопрос верно/неверно</option>
+                            </select>
+                            <input type="text" style="width:20%" name="Questions[${questionIndex}].QuestionTypeId" />
+                            <label>Вопрос<label>
+                            <input type="number" style="width:5%" name="Questions[${questionIndex}].Cost" />
+
+
+
+                            <!-- Добавьте другие поля для свойств модели AddQuestion -->
+
+                            <div class="optionsContainer">
+                                <!-- Контейнер для вариантов ответов -->
+                            </div>
+
+                            <button type="button" onclick="addOption(${questionIndex})">Добавить вариант ответа</button>
+                        </div>
+                    `;
+
+            $('#questionsContainer').append(questionHtml);
+
+            questionIndex++;
+        }
+
+        function addOption(questionIndex) {
+            var optionHtml = `
+                        <div class="option">
+                            <input type="text" name="Questions[${questionIndex}].Options[${$('.question').eq(questionIndex).find('.option').length}].Text" />
+                            <!-- Добавьте другие поля для свойств модели AddOption -->
+                        </div>
+                    `;
+
+            $('.question').eq(questionIndex).find('.optionsContainer').append(optionHtml);
+        }
+    </script>
+}
