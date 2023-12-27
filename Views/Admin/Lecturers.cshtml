@@ -8,14 +8,14 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-1 ">
-                <button><a asp-controller="Admin" asp-action="Index">Назад</a></button>
+                <button class="btn btn-secondary"><a class="text-decoration-none text-light" asp-controller="Admin" asp-action="Index">Назад</a></button>
             </div>
             <div class="col-8">
                 <input style="width:30%" type="text" id="SearchName" name="SearchName" placeholder="Имя лектора" />
                 <input style="width:30%" type="text" id="SearchSurname" name="SearchSurname" placeholder="Фамилия лектора" />
             </div>
             <div class="col-3 ">
-                <a asp-controller="Admin" asp-action="RegisterLecturer">Зарегистрировать лектора</a>
+                <a class="text-decoration-none" asp-controller="Admin" asp-action="RegisterLecturer">Зарегистрировать лектора</a>
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@ namespace DistanceEducation.Models
 {
     public class LecturerCourse
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string? LecturerId { get; set; }
         public int CourseId { get; set; }
 

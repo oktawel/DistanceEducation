@@ -29,7 +29,9 @@ namespace DistanceEducation.Models.Acount
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+
         [Required]
+        [Display(Name = "Группа")]
         public int GroupId { get; set; }
     }
 }

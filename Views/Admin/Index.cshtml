@@ -3,7 +3,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <button> <a asp-action="Students">Список студентов</a></button>    <button><a asp-action="Lecturers">Список лекторов</a></button>
+<div class="row text-center">
+    <div class="col-4">
+        <button class="w-50 btn btn-lg btn-primary"> <a class="text-decoration-none text-light" asp-action="Students">Список студентов</a></button>
+    </div>
+    <div class="col-4">
+        <button class="w-50 btn btn-lg btn-primary"><a class="text-decoration-none text-light" asp-action="Lecturers">Список лекторов</a></button>
+    </div>
 </div>
 

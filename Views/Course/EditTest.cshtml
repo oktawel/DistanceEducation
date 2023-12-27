@@ -72,12 +72,13 @@
             <div class="form-floating">
                 <input asp-for="CourseId" class="form-control" type="hidden" value="@Model.CourseId"/>
             </div>
-            <button id="addSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Сохранить изменения</button>
+            <button id="addSubmit" type="submit" class="w-25 btn btn-lg btn-success">Сохранить изменения</button>
+            <button class="w-25 btn btn-lg btn-danger"> <a class="text-decoration-none text-light" asp-action="Delete" asp-route-ID="@Model.Id" asp-route-backId="@Model.CourseId" asp-route-partId="1">Удалить тест</a></button>
             <div id="List">
                 <div>
                     <a class="text-decoration-none" asp-route-testId="@Model.Id" asp-action="addQuestion">Добавить вопрос</a>
                 </div>
-                @Html.Partial("_Questions")
+                @Html.Partial("_Questions", Model)
             </div>
         </form>
     </div>

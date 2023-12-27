@@ -40,8 +40,8 @@
                     @item.Group.Name
                 </td>
                 <td>
-                    <button>@Html.ActionLink("Подробная информация", "StudentDetails", new { ID = item.Id })</button>
-                    <button>@Html.ActionLink("Удалить", "DeleteStudent", new { id = item.Id })</button>
+                    <button class="btn btn-p btn-primary"><a class="text-decoration-none text-light" asp-action="StudentDetails" asp-route-ID="@item.Id">Подробная информация</a></button>
+                    <button class="btn btn-danger"><a class="text-decoration-none text-light" asp-action="DeleteStudent" asp-route-id="@item.Id">Удалить</a></button>
                 </td>
             </tr>
             i += 1;

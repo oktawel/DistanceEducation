@@ -36,14 +36,20 @@
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
             <div class="form-floating">
-                <label asp-for="GroupId"></label>
-                <select asp-for="GroupId" id="group">
-                    <option value="null">Не назначена</option>
-                    @foreach (var item in ViewBag.Groups)
-                    {
-                        <option value="@item.Id">@item.Name</option>
-                    }
-                </select>
+                <div class="row">
+                    <div class="col-3">
+                        <label asp-for="GroupId"></label>
+                    </div>
+                    <div class="col-5">
+                        <select asp-for="GroupId" id="group">
+                            <option value="null">Не назначена</option>
+                            @foreach (var item in ViewBag.Groups)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
                 <span asp-validation-for="GroupId" class="text-danger"></span><br />
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Добавить студента</button>

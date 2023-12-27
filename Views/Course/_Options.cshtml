@@ -1,4 +1,5 @@
-﻿
+﻿@model DistanceEducation.Models.AddQuestion
+
 <table class="table">
     <thead>
         <tr>
@@ -38,8 +39,7 @@
                         }
                     </td>
                     <td>
-                        <span></span>
-                        <span></span>
+                        <button class="btn btn-danger"><a class="text-decoration-none text-light" asp-action="Delete" asp-route-ID="@Model.Id" asp-route-backId="@Model.Id" asp-route-partId="4">Удалить</a></button>
                     </td>
                 </tr>
                 i += 1;
@@ -63,8 +63,8 @@
                         }
                     </td>
                     <td>
-                        <button>@Html.ActionLink("Изменить", "EditOption", new { optionId = item.Id })</button>
-                        <button>@Html.ActionLink("Удалить", "DeleteStudent", new { optionId = item.Id })</button>
+                        <button class="btn btn-p btn-primary"><a class="text-decoration-none text-light" asp-action="EditOption" asp-route-optionId="@item.Id">Изменить</a></button>
+                        <button class="btn btn-danger"><a class="text-decoration-none text-light" asp-action="Delete" asp-route-ID="@item.Id" asp-route-backId="@Model.Id" asp-route-partId="3">Удалить</a></button>
                     </td>
                 </tr>
                 i += 1;

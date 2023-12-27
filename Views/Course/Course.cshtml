@@ -10,7 +10,7 @@
     @if (isEditor)
     {
         <div class="align-items-start text-end">
-            Редактировать курс
+            <a class="text-decoration-none" asp-route-courseId="@Model.Id" asp-action="EditCourse">Редактировать курс</a>
         </div>
     }
 
@@ -38,10 +38,10 @@
                     <div class="col-7 text-start">
                         <h4>
                             <a class="text-decoration-none align-middle" asp-controller="Test" asp-action="TestInfo" asp-route-id="@item.Id">@item.Name</a>
-                        @if (isEditor)
-                        {
-                                <a asp-action="EditTest" asp-route-courseId="@Model.Id" asp-route-testId="@item.Id"><img style="width:3%;" src="@Url.Content("~/img/Edit.png")" /></a>
-                        }
+                            @if (isEditor)
+                            {
+                                    <a asp-action="EditTest" asp-route-courseId="@Model.Id" asp-route-testId="@item.Id"><img style="width:3%;" src="@Url.Content("~/img/Edit.png")" /></a>
+                            }
                         </h4>
                     </div>
                 </div>

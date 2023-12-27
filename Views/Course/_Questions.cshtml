@@ -1,4 +1,4 @@
-﻿
+﻿@model DistanceEducation.Models.AddTest
 <table class="table">
     <thead>
         <tr>
@@ -40,8 +40,8 @@
                     @item.Cost
                 </td>
                 <td>
-                    <button>@Html.ActionLink("Изменить", "EditQuestion", new { questionId = item.Id })</button>
-                    <button>@Html.ActionLink("Удалить", "DeleteStudent", new { id = item.Id })</button>
+                    <button class="btn btn-p btn-primary"><a class="text-decoration-none text-light" asp-action="EditQuestion" asp-route-questionId="@item.Id">Изменить</a></button>
+                    <button class="btn btn-danger"><a class="text-decoration-none text-light" asp-action="Delete" asp-route-ID="@item.Id" asp-route-backId="@Model.Id" asp-route-partId="2">Удалить</a></button>
                 </td>
             </tr>
             i += 1;

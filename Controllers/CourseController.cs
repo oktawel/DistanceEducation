@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -214,10 +215,15 @@ namespace DistanceEducation.Controllers
         public IActionResult EditQuestion(int questionId)
         {
             var question = _context.Questions.FirstOrDefault(t => t.Id == questionId);
+            bool isMax = true;
             if (question.QuestionTypeId != 4)
             {
                 ViewBag.OptionTF = false;
                 ViewBag.Options = _context.Options.Where(o => o.QuestionId == questionId).ToList();
+            }
+            else if (question.QuestionTypeId == 1 && _context.Options.FirstOrDefault(o => o.QuestionId == question.Id) != null)
+            {
+                isMax = false;
             }
             else 
             {
@@ -225,6 +231,8 @@ namespace DistanceEducation.Controllers
                 ViewBag.Options = _context.OptionTFQuestion.Where(o => o.QuestionId == questionId).Include(tf => tf.OptionTrueFalse).ToList();
             }
             
+            ViewBag.isMax = isMax;
+
             ViewBag.Types = _context.QuestionTypes.ToList();
 
             AddQuestion questionForm = new AddQuestion();
@@ -392,5 +400,128 @@ namespace DistanceEducation.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult EditCourse(int courseId)
+        {
+            var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
+            return View(course);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditCourse(Course model)
+        {
+            
+            if (ModelState.IsValid)
+            {
+
+                _context.Update(model);
+                _context.SaveChanges();
+
+                return RedirectToAction("Course", new { ID = model.Id });
+            }
+            return View(model);
+        }
+        
+        [HttpGet]
+        public IActionResult AddCourse()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddCourse(Course model)
+        {
+            var lecturer = _context.Lecturers.FirstOrDefault(n => n.UserName == User.Identity.Name);
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(model);
+                _context.SaveChanges();
+
+                LecturerCourse lc = new LecturerCourse();
+                lc.LecturerId = lecturer.Id;
+                lc.CourseId = (int)model.Id;
+                _context.Add(lc);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult GroupCourse(int courseId)
+        {
+            Console.WriteLine(courseId);
+            var viewModel = new CourseViewModel
+            {
+                CourseId = courseId,
+                Groups = _context.Groups.ToList()
+            };
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult GroupCourse(CourseViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine(viewModel.CourseId + "sdad ");
+                viewModel.Groups = _context.Groups.ToList();
+                return View(viewModel);
+            }
+
+            foreach (var groupId in viewModel.SelectedGroupIds)
+            {
+                GroupCourse gc = new GroupCourse
+                {
+                    CourseId = viewModel.CourseId,
+                    GroupId = groupId 
+                };
+                if(_context.GroupCourse.Where(c => c.CourseId == gc.CourseId).Where(g => g.GroupId == gc.GroupId) == null)
+                {
+                    _context.GroupCourse.Add(gc);
+                    _context.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("EditCourse", new {courseId  = viewModel.CourseId });
+        }
+
+        public async Task<IActionResult> Delete(int ID, int backId, int partId)
+        {
+            switch (partId)
+            {
+                case 1:
+                    {
+                        _context.Tests.Remove(_context.Tests.FirstOrDefault(i => i.Id == ID));
+                        _context.SaveChanges();
+                        return RedirectToAction("Course", new { ID = backId });
+
+                    }
+                case 2:
+                    {
+                        _context.Questions.Remove(_context.Questions.FirstOrDefault(i => i.Id == ID));
+                        _context.SaveChanges();
+                        return RedirectToAction("EditTest", new { testId = backId });
+                    }
+                case 3:
+                    {
+                        _context.Options.Remove(_context.Options.FirstOrDefault(i => i.Id == ID));
+                        _context.SaveChanges();
+                        return RedirectToAction("EditQuestion", new { questionId = backId });
+                    }
+                case 4:
+                    {
+                        var records = _context.OptionTFQuestion.Where(i => i.QuestionId == ID);
+                        _context.OptionTFQuestion.RemoveRange(records);
+                        _context.SaveChanges();
+                        return RedirectToAction("EditQuestion", new { questionId = backId });
+                    }
+            }
+
+            return View();
+        }
+
     }
 }

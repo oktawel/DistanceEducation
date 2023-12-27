@@ -34,8 +34,8 @@
                     @item.Surname
                 </td>
                 <td>
-                    <button>@Html.ActionLink("Подробная информация", "LecturerDetails", new { ID = item.Id })</button>
-                    <button>@Html.ActionLink("Удалить", "DeleteLecturer", new { id = item.Id })</button>
+                    <button class="btn btn-p btn-primary"><a class="text-decoration-none text-light" asp-action="LecturerDetails" asp-route-ID="@item.Id">Подробная информация</a></button>
+                    <button class="btn btn-danger"><a class="text-decoration-none text-light" asp-action="DeleteLecturer" asp-route-id="@item.Id">Удалить</a></button>
                 </td>
             </tr>
             i += 1;

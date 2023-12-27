@@ -27,8 +27,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-5 ">
-                <div class="form-floating">
+            <div class="text-center">
+                <div class="">
                     <select asp-for="QuestionTypeId" id="QuestionType">
                         <option value="null">Не назначен</option>
                         @foreach (var item in ViewBag.Types)
@@ -43,7 +43,7 @@
                 
                 <input asp-for="TestId" class="form-control" type="hidden" value="@testId" />
             </div>
-            <button id="addSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Добавить вопрос</button>
+            <button id="addSubmit" type="submit" class="w-100 mt-2 btn btn-lg btn-primary">Добавить вопрос</button>
         </form>
     </div>
 </div>

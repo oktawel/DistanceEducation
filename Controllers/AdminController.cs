@@ -140,14 +140,6 @@ namespace DistanceEducation.Controllers
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    /**Student newStudnent = new Student();
-                    newStudnent.Id = record.Id;
-                    newStudnent.UserName = record.UserName;
-                    newStudnent.Email = record.Email;
-                    newStudnent.Name = record.Name;
-                    newStudnent.Surname = record.Surname;
-                    newStudnent.RoleId = record.RoleId;**/
-
                     _context.Update(record);
                     _context.SaveChanges();
 
@@ -266,11 +258,11 @@ namespace DistanceEducation.Controllers
             List<Student> students = null;
             if (name != null)
             {
-                students = _context.Students.Where(s => s.Name.Contains(name)).ToList();
+                students = _context.Students.Where(s => s.Name.Contains(name)).Include(g => g.Group).ToList();
             }
             else
             {
-                students = _context.Students.ToList();
+                students = _context.Students.Include(g => g.Group).ToList();
             }
             return PartialView("ListStudents", students);
         }
@@ -280,11 +272,11 @@ namespace DistanceEducation.Controllers
             List<Student> students = null;
             if (surname != null)
             {
-                students = _context.Students.Where(s => s.Surname.Contains(surname)).ToList();
+                students = _context.Students.Where(s => s.Surname.Contains(surname)).Include(g => g.Group).ToList();
             }
             else
             {
-                students = _context.Students.ToList();
+                students = _context.Students.Include(g => g.Group).ToList();
             }
             return PartialView("ListStudents", students);
         }

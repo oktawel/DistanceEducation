@@ -10,6 +10,6 @@ namespace DistanceEducation.Models
         public int? Id { get; set; }
         public string? Name { get; set; }
 
-        //public List<GroupCourse>? GroupCourse { get; } = new();
+        public ICollection<Course> Courses { get; set; }
     }
 }

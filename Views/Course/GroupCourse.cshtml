@@ -1,0 +1,46 @@
+﻿@model DistanceEducation.Models.CourseViewModel
+
+@{
+    ViewData["Title"] = "Прикрепление групп";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="GroupCourse" method="post">
+            <div>
+                <input asp-for="CourseId" type="hidden" />
+            </div>
+            <div class="row text-start">
+                <div class="col-md-2">
+                    <label>Выберите группы:</label>
+                    <ul>
+                        @foreach (var group in Model.Groups)
+                        {
+                            <li>
+                                <input type="checkbox" name="SelectedGroupIds" value="@group.Id" /> @group.Name
+                            </li>
+                        }
+                    </ul>
+                    <span asp-validation-for="SelectedGroupIds"></span>
+                </div>
+            </div>
+
+            <br />
+
+            <button id="addSubmit" type="submit" class="btn btn-lg btn-primary">Добавить</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Course" asp-route-ID="@Model.CourseId">Назад</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

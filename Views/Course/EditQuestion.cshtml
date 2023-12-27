@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Редактирование вопроса";
+    bool isMax = ViewBag.isMax;
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -32,12 +33,15 @@
                 <input asp-for="QuestionTypeId" class="form-control" type="hidden" />
                 <input asp-for="TestId" class="form-control" type="hidden" />
             </div>
-            <button id="addSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Сохранить изменения</button>
+            <button id="addSubmit" type="submit" class="w-25 btn btn-lg btn-success">Сохранить изменения</button>
             <div id="OptionsList">
-                <div>
-                    <a class="text-decoration-none" asp-route-questionId="@Model.Id" asp-action="addOption">Добавить вариант ответа</a>
-                </div>
-                @Html.Partial("_Options")
+                @if (isMax)
+                {
+                    <div>
+                        <a class="text-decoration-none" asp-route-questionId="@Model.Id" asp-action="addOption">Добавить вариант ответа</a>
+                    </div>
+                }
+                @Html.Partial("_Options", Model)
             </div>
         </form>
     </div>
