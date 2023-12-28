@@ -6,16 +6,15 @@ using System.Data;
 
 namespace DistanceEducation.Models
 {
-    public class Course
+    public class AddCourse
     {
         public int? Id { get; set; }
-
+        [Required]
+        [Display(Name = "Название курса")]
         public string? Name { get; set; }
 
+        [Display(Name = "Описание курса")]
         public string? Text { get; set; }
 
-        public ICollection<Group>? Groups { get; set; }
-
-        public List<LecturerCourse>? LecturerCourse { get; } = new();
     }
 }

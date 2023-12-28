@@ -144,7 +144,7 @@ namespace DistanceEducation.Controllers
 
                         answer.TextAnswer = form[key];
                         var option = _context.Options.FirstOrDefault(q => q.QuestionId == question.Id);
-                        if (option.Text.Contains(form[key]))
+                        if (option.Text.Equals(form[key]))
                         {
                             answer.Correct = true;
                         }
@@ -274,45 +274,6 @@ namespace DistanceEducation.Controllers
             }
 
             return RedirectToAction("TestInfo", new { ID = Id });
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        [HttpGet]
-        public IActionResult GetResultsByGroup(int groupid)
-        {
-            var resultTest = _context.TestResult.Where(r => r.Mark != null);
-
-            if (groupid != 0)
-            {
-                resultTest = resultTest.Include(s => s.Student).Include(g => g.Student.Group).Where(g => g.Student.GroupId == groupid);
-                ViewBag.Results = resultTest;
-            }
-            else
-            {
-                resultTest = resultTest.Include(s => s.Student).Include(g => g.Student.Group);
-            }
-            return PartialView("ListStudents", resultTest);
         }
     }
 }

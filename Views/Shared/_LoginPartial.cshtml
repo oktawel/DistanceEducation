@@ -10,19 +10,19 @@
     @if (User.IsInRole("Admin"))
     {
         <li class="nav-item">
-                <a class="nav-link nav_button" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Администратор</a>
+                <a class="nav-link nav_button"  title="Manage">Администратор</a>
         </li>
     }
     @if (User.IsInRole("Lecturer"))
     {
         <li class="nav-item">
-                <a class="nav-link nav_button" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Лектор </a>
+                <a class="nav-link nav_button"  title="Manage">Лектор </a>
         </li>
     }
     @if (User.IsInRole("Student"))
     {
         <li class="nav-item">
-                <a class="nav-link nav_button" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Студент </a>
+                <a class="nav-link nav_button"  title="Manage">Студент </a>
         </li>
 
     }

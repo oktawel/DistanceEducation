@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DistanceEducation.Models.Group>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                Название группы
+            </th>
+            <th colspan="2">
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    <button class="btn btn-p btn-primary"><a class="text-decoration-none text-light" asp-action="DetailsGroup" asp-route-ID="@item.Id">Подробная информация</a></button>
+                    <button class="btn btn-danger"><a class="text-decoration-none text-light" asp-action="DeleteGroup" asp-route-ID="@item.Id">Удалить</a></button>
+                </td>
+            </tr>
+            i += 1;
+        }
+    </tbody>
+</table>

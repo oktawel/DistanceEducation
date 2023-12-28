@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
@@ -111,6 +112,7 @@ namespace DistanceEducation.Controllers
                 //Console.WriteLine(model.TimeStart);
                 Test newTest = new Test();
                 newTest.Name = model.Name;
+                newTest.Status = model.Status;
                 newTest.Description = model.Description;
                 newTest.Length = model.Length;
                 newTest.TimeStart = new DateTime(model.DateStart.Year,
@@ -154,6 +156,7 @@ namespace DistanceEducation.Controllers
             AddTest testForm = new AddTest();
             testForm.Id = test.Id;
             testForm.CourseId = test.CourseId;
+            testForm.Status = test.Status;
             testForm.Length = test.Length;
             testForm.Name = test.Name;
             testForm.Description = test.Description;
@@ -183,6 +186,7 @@ namespace DistanceEducation.Controllers
                 Test testForm = new Test();
                 testForm.Id = model.Id;
                 testForm.CourseId = model.CourseId;
+                testForm.Status = model.Status;
                 testForm.Length = model.Length;
                 testForm.Name = model.Name;
                 testForm.Description = model.Description;
@@ -215,18 +219,23 @@ namespace DistanceEducation.Controllers
         public IActionResult EditQuestion(int questionId)
         {
             var question = _context.Questions.FirstOrDefault(t => t.Id == questionId);
-            bool isMax = true;
+            bool isMax = false;
             if (question.QuestionTypeId != 4)
             {
+                if (question.QuestionTypeId == 1 && _context.Options.Where(o => o.QuestionId == question.Id).Count() != 0)
+                {
+                    isMax = true;
+                }
+
                 ViewBag.OptionTF = false;
                 ViewBag.Options = _context.Options.Where(o => o.QuestionId == questionId).ToList();
             }
-            else if (question.QuestionTypeId == 1 && _context.Options.FirstOrDefault(o => o.QuestionId == question.Id) != null)
-            {
-                isMax = false;
-            }
             else 
             {
+                if (_context.OptionTFQuestion.Where(o => o.QuestionId == question.Id).Count() != 0)
+                {
+                    isMax = true;
+                }
                 ViewBag.OptionTF = true;
                 ViewBag.Options = _context.OptionTFQuestion.Where(o => o.QuestionId == questionId).Include(tf => tf.OptionTrueFalse).ToList();
             }
@@ -274,7 +283,10 @@ namespace DistanceEducation.Controllers
             optionForm.Id = option.Id;
             optionForm.Text = option.Text;
             optionForm.QuestionId = option.QuestionId;
-            optionForm.Correct = option.Correct;         
+            optionForm.Correct = option.Correct;
+
+            var question = _context.Questions.FirstOrDefault(t => t.Id == option.QuestionId);
+            ViewBag.Question = question;
             return View(optionForm);
         }
         [HttpPost]
@@ -291,6 +303,8 @@ namespace DistanceEducation.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("EditQuestion", new { questionId = model.QuestionId });
             }
+            var question = _context.Questions.FirstOrDefault(t => t.Id == model.QuestionId);
+            ViewBag.Question = question;
             return View(model);
         }
 
@@ -309,6 +323,12 @@ namespace DistanceEducation.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.QuestionTypeId == 0)
+                {
+                    ViewBag.Types = _context.QuestionTypes.ToList();
+                    ViewBag.Test = _context.Tests.FirstOrDefault(t => t.Id == model.TestId);
+                    return View(model);
+                }
                 Question quetionForm = new Question();
                 quetionForm.Name = model.Name;
                 quetionForm.QuestionTypeId = model.QuestionTypeId;
@@ -320,6 +340,8 @@ namespace DistanceEducation.Controllers
 
                 return RedirectToAction("EditTest", new { testId = model.TestId }); ;
             }
+            ViewBag.Types = _context.QuestionTypes.ToList();
+            ViewBag.Test = _context.Tests.FirstOrDefault(t => t.Id == model.TestId);
             return View(model);
         }
 
@@ -362,7 +384,7 @@ namespace DistanceEducation.Controllers
         public IActionResult AddTFOption(int questionId)
         {
             Console.WriteLine(questionId);
-            ViewBag.Question = _context.Questions.FirstOrDefault(t => t.Id == questionId); ;
+            ViewBag.Question = _context.Questions.FirstOrDefault(t => t.Id == questionId);
 
             return View();
         }
@@ -390,6 +412,11 @@ namespace DistanceEducation.Controllers
                     _context.Add(optionTFForm2);
                     _context.SaveChanges();
                 }
+                else
+                {
+                    ViewBag.Question = _context.Questions.FirstOrDefault(t => t.Id == model.QuestionId);
+                    return View(model);
+                }
                 optionTFForm.QuestionId = model.QuestionId;
 
                 
@@ -398,6 +425,7 @@ namespace DistanceEducation.Controllers
 
                 return RedirectToAction("EditQuestion", new { questionId = model.QuestionId }); ;
             }
+            ViewBag.Question = _context.Questions.FirstOrDefault(t => t.Id == model.QuestionId);
             return View(model);
         }
 
@@ -405,6 +433,7 @@ namespace DistanceEducation.Controllers
         public IActionResult EditCourse(int courseId)
         {
             var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
+            ViewBag.Groups = _context.GroupCourse.Include(gc => gc.Course).Where(gc => gc.CourseId == courseId).Select(gc => gc.Group).ToList(); ;
             return View(course);
         }
         [HttpPost]
@@ -419,6 +448,7 @@ namespace DistanceEducation.Controllers
 
                 return RedirectToAction("Course", new { ID = model.Id });
             }
+            ViewBag.Groups = _context.GroupCourse.Include(gc => gc.Course).Where(gc => gc.CourseId == model.Id).Select(gc => gc.Group).ToList(); 
             return View(model);
         }
         
@@ -429,18 +459,22 @@ namespace DistanceEducation.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddCourse(Course model)
+        public async Task<IActionResult> AddCourse(AddCourse model)
         {
             var lecturer = _context.Lecturers.FirstOrDefault(n => n.UserName == User.Identity.Name);
 
             if (ModelState.IsValid)
             {
-                _context.Add(model);
+                Course course = new Course();
+                course.Name = model.Name;
+                course.Text = model.Text;
+
+                _context.Add(course);
                 _context.SaveChanges();
 
                 LecturerCourse lc = new LecturerCourse();
                 lc.LecturerId = lecturer.Id;
-                lc.CourseId = (int)model.Id;
+                lc.CourseId = (int)course.Id;
                 _context.Add(lc);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -448,7 +482,16 @@ namespace DistanceEducation.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> DeleteConnection(int groupID, int courseID)
+        {
+            var gc = _context.GroupCourse.Where(c => c.CourseId == courseID).FirstOrDefault(g => g.GroupId == groupID);
 
+            //Console.WriteLine("OTDET ->" + gc.GroupId + gc.CourseId);
+            
+            _context.GroupCourse.Remove(gc);
+            _context.SaveChanges();
+            return RedirectToAction("EditCourse", new { courseId = courseID });
+        }
 
         [HttpGet]
         public IActionResult GroupCourse(int courseId)
@@ -457,7 +500,8 @@ namespace DistanceEducation.Controllers
             var viewModel = new CourseViewModel
             {
                 CourseId = courseId,
-                Groups = _context.Groups.ToList()
+                //Groups = _context.Groups.Include(gc => gc.).ToList()
+                Groups = _context.Groups.Where(g => !_context.GroupCourse.Any(gc => gc.GroupId == g.Id && gc.CourseId == courseId)).ToList()
             };
             return View(viewModel);
         }
@@ -467,7 +511,7 @@ namespace DistanceEducation.Controllers
             if (!ModelState.IsValid)
             {
                 Console.WriteLine(viewModel.CourseId + "sdad ");
-                viewModel.Groups = _context.Groups.ToList();
+                viewModel.Groups = _context.Groups.Where(g => !_context.GroupCourse.Any(gc => gc.GroupId == g.Id && gc.CourseId == viewModel.CourseId)).ToList();
                 return View(viewModel);
             }
 
@@ -478,11 +522,8 @@ namespace DistanceEducation.Controllers
                     CourseId = viewModel.CourseId,
                     GroupId = groupId 
                 };
-                if(_context.GroupCourse.Where(c => c.CourseId == gc.CourseId).Where(g => g.GroupId == gc.GroupId) == null)
-                {
-                    _context.GroupCourse.Add(gc);
-                    _context.SaveChanges();
-                }
+                _context.GroupCourse.Add(gc);
+                _context.SaveChanges();
             }
 
             return RedirectToAction("EditCourse", new {courseId  = viewModel.CourseId });

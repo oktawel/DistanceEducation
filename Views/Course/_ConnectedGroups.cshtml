@@ -1,0 +1,26 @@
+﻿@model DistanceEducation.Models.Course
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название группы
+            </th>
+            <th >
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Groups)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    <button class="btn btn-danger"><a class="text-decoration-none text-light" asp-action="DeleteConnection" asp-route-groupID="@item.Id" asp-route-courseID="@Model.Id">Удалить</a></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

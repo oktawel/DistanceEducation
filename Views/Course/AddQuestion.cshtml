@@ -30,7 +30,7 @@
             <div class="text-center">
                 <div class="">
                     <select asp-for="QuestionTypeId" id="QuestionType">
-                        <option value="null">Не назначен</option>
+                        <option value="0">Не назначен</option>
                         @foreach (var item in ViewBag.Types)
                         {
                             <option value="@item.Id">@item.Name</option>

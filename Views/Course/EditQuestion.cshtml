@@ -35,7 +35,7 @@
             </div>
             <button id="addSubmit" type="submit" class="w-25 btn btn-lg btn-success">Сохранить изменения</button>
             <div id="OptionsList">
-                @if (isMax)
+                @if (!(isMax))
                 {
                     <div>
                         <a class="text-decoration-none" asp-route-questionId="@Model.Id" asp-action="addOption">Добавить вариант ответа</a>

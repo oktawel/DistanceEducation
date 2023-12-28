@@ -19,14 +19,22 @@
                         <span asp-validation-for="Text" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-2 ">
-                    <div class="form-floating">
-                        Верный ответ:<input asp-for="Correct" type="radio" value="true" />
-                        Неверный ответ:<input asp-for="Correct" type="radio" value="false" />  
-                        <span asp-validation-for="Correct" class="text-danger"></span>
+                @if(ViewBag.Question.QuestionTypeId != 1)
+                {
+                    <div class="col-2 ">
+                        <div class="form-floating">
+                            Верный ответ:<input asp-for="Correct" type="radio" value="true" />
+                            Неверный ответ:<input asp-for="Correct" type="radio" value="false" />  
+                            <span asp-validation-for="Correct" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <input asp-for="Correct" type="hidden" value="true" />
+                }
             </div>
+
 
             <div class="form-floating">
                 <input asp-for="QuestionId" class="form-control" type="hidden" />

@@ -1,0 +1,33 @@
+﻿@model DistanceEducation.Models.Group
+
+@{
+    ViewData["Title"] = "Информация о группе";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <hr />
+        <dl class="row">
+            <dd class="col-sm-2 fild-details text-center">
+                <h3><span class="fild">@Html.DisplayFor(model => model.Name)</span></h3>
+            </dd>
+        </dl>
+        <div>
+        <button class="btn btn-p btn-primary"><a class="text-decoration-none text-light" asp-action="EditGroup" asp-route-ID="Model.Id">Изменить</a></button>
+        <button class="btn btn-secondary"><a class="text-decoration-none text-light" asp-action="Groups">Назад</a></button>
+        </div>
+        @if (ViewBag.StudentsCounts != 0)
+        {
+            <div id="StudentsList">
+                @Html.Partial("ListStudentsForGroups")
+            </div>
+        }
+        else
+        {
+            <br/>
+            <div><h4>В группе нет студентов</h4></div>
+        }
+
+</div>
+

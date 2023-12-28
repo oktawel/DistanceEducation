@@ -31,11 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Admin\Lecturer\" />
-    <Folder Include="Views\Admin\Student\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\img\Edit.jpg" />
   </ItemGroup>
 

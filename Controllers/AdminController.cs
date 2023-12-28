@@ -31,6 +31,12 @@ namespace DistanceEducation.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            bool notnull = false;
+            if (_context.QuestionTypes.ToList().Count() == 0)
+            {
+                notnull = true;
+            }
+            ViewBag.NotNull = notnull;
             return View();
         }
 
@@ -78,6 +84,8 @@ namespace DistanceEducation.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
+            var groups = _context.Groups.ToList();
+            ViewBag.Groups = groups;
             return View(model);
         }
         public async Task<IActionResult> DeleteStudent(string ID)
@@ -238,8 +246,85 @@ namespace DistanceEducation.Controllers
             return View();
         }
 
+        public IActionResult GenerateTypesQuestions()
+        {
+            QuestionType questionType = new QuestionType();
+            questionType.Name = "Открытый вопрос";
+            QuestionType questionType2 = new QuestionType();
+            questionType2.Name = "Вопрос с одним ответом";
+            QuestionType questionType3 = new QuestionType();
+            questionType3.Name = "Вопрос с несколькими ответами";
+            QuestionType questionType4 = new QuestionType();
+            questionType4.Name = "Вопрос верно/неверно";
+            List<QuestionType> questionTypes = new List<QuestionType>
+            {
+                questionType,
+                questionType2,
+                questionType3,
+                questionType4
+            };
+            _context.QuestionTypes.AddRange(questionTypes);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Admin");
+        }
 
+        [HttpGet]
+        public IActionResult Groups()
+        {
+            var groups = _context.Groups.ToList();
+            return View(groups);
+        }
+        [HttpGet]
+        public IActionResult EditGroup(int ID)
+        {
+            var group = _context.Groups.FirstOrDefault(g => g.Id == ID);
+            return View(group);
+        }
+        public async Task<IActionResult> DeleteGroup(int ID)
+        {
+            _context.Groups.Remove(_context.Groups.FirstOrDefault(g => g.Id == ID));
+            _context.SaveChanges();
+            return RedirectToAction("Groups", "Admin");
+        }
+        [HttpGet]
+        public IActionResult DetailsGroup(int ID)
+        {
+            var group = _context.Groups.FirstOrDefault(g => g.Id == ID);
+            var students = _context.Students.Where(g => g.GroupId == ID);
+            ViewBag.Students = students;
+            ViewBag.StudentsCounts = students.Count();
+            return View(group);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditGroup(Group model)
+        {
+            if (ModelState.IsValid)
+            {
 
+                _context.Groups.Update(model);
+                _context.SaveChanges();
+                return RedirectToAction("Groups", "Admin");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult AddGroup()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddGroup(Group model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                _context.Groups.Add(model);
+                _context.SaveChanges();
+                return RedirectToAction("Groups", "Admin");
+            }
+            return View(model);
+        }
 
 
 
